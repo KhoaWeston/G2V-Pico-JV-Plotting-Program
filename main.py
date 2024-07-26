@@ -245,15 +245,17 @@ def plot_param_vs_ind(x_list, x_axe_labs, directory, last_file, plt_type, flag):
     twin3.spines.right.set_position(("axes", 1.4 if plt_type == 'spectra' else 1.2))
 
     # Plot points with temperature coefficients in the label
-    p1, = ax.plot(x_list, PCE_list, label="PCE ({:.4f} %/C)".format(np.polyfit(x_list, PCE_list, 1)[0]),
-                  marker='.', linestyle='' if flag else '-', color='r')
-    p2, = twin1.plot(x_list, Voc_list, label="Voc ({:.4f} V/C)".format(np.polyfit(x_list, Voc_list, 1)[0]),
-                     marker='.', linestyle='' if flag else '-', color='b')
-    p3, = twin2.plot(x_list, Jsc_list, label="Jsc ({:.4f} mA/cm{}/C)".format(np.polyfit(x_list, Jsc_list, 1)[0],
-                                                                             get_super('2')),
-                     marker='.', linestyle='' if flag else '-', color='y')
-    p4, = twin3.plot(x_list, FF_list, label="FF ({:.4f} %/C)".format(np.polyfit(x_list, FF_list, 1)[0]),
-                     marker='.', linestyle='' if flag else '-', color='c')
+    ind_label = 'AM' if plt_type == 'temp' else 'C'
+    ln_style = '' if flag else '-'
+    p1, = ax.plot(x_list, PCE_list, label="PCE ({:.4f} %/{})".format(
+        np.polyfit(x_list, PCE_list, 1)[0], ind_label) if flag else "PCE", marker='.', linestyle=ln_style, color='r')
+    p2, = twin1.plot(x_list, Voc_list, label="Voc ({:.4f} V/{})".format(
+        np.polyfit(x_list, Voc_list, 1)[0], ind_label) if flag else "Voc", marker='.', linestyle=ln_style, color='b')
+    p3, = twin2.plot(x_list, Jsc_list, label="Jsc ({:.4f} mA/cm{}/{})".format(
+        np.polyfit(x_list, Jsc_list, 1)[0], get_super('2'), ind_label) if flag else "Jsc",
+                     marker='.', linestyle=ln_style, color='y')
+    p4, = twin3.plot(x_list, FF_list, label="FF ({:.4f} %/{})".format(
+        np.polyfit(x_list, FF_list, 1)[0], ind_label) if flag else "FF", marker='.', linestyle=ln_style, color='c')
 
     # Plot lines of best fit
     if flag:
